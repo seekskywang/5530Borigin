@@ -13,4 +13,5 @@
 
 void TIM6_Config(void);
 static void TIM6_NVIC_Config(void);
+void TIM3_Int_Init(u16 arr,u16 psc);
 #endif

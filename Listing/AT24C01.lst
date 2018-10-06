@@ -680,19 +680,18 @@ S  #endif
 N#endif
 N
 N#include <stdint.h>                      /* standard types definitions                      */
-L 1 "D:\Keil\ARM\ARMCC\bin\..\include\stdint.h" 1
+L 1 "D:\Keil\ARM\RV31\Inc\stdint.h" 1
 N/* Copyright (C) ARM Ltd., 1999 */
 N/* All rights reserved */
 N
 N/*
-N * RCS $Revision: 178085 $
-N * Checkin $Date: 2012-12-11 14:54:17 +0000 (Tue, 11 Dec 2012) $
+N * RCS $Revision: 137748 $
+N * Checkin $Date: 2008-09-11 17:34:24 +0100 (Thu, 11 Sep 2008) $
 N * Revising $Author: agrant $
 N */
 N
 N#ifndef __stdint_h
 N#define __stdint_h
-N#define __ARMCLIB_VERSION 5030076
 N
 N  #ifndef __STDINT_DECLS
 N  #define __STDINT_DECLS
@@ -950,46 +949,31 @@ N
 N/* end of stdint.h */
 N
 N
-N
 L 169 "..\Libraries\CMSIS\inc\core_cm4.h" 2
 N#include <core_cmInstr.h>                /* Core Instruction Access                         */
 L 1 "D:\Keil\ARM\CMSIS\Include\core_cmInstr.h" 1
 N/**************************************************************************//**
 N * @file     core_cmInstr.h
 N * @brief    CMSIS Cortex-M Core Instruction Access Header File
-N * @version  V3.20
-N * @date     05. March 2013
+N * @version  V3.01
+N * @date     06. March 2012
 N *
 N * @note
+N * Copyright (C) 2009-2012 ARM Limited. All rights reserved.
+N *
+N * @par
+N * ARM Limited (ARM) is supplying this software for use with Cortex-M
+N * processor based microcontrollers.  This file can be freely distributed
+N * within development tools that are supporting such ARM based processors.
+N *
+N * @par
+N * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
+N * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+N * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
+N * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
+N * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
 N *
 N ******************************************************************************/
-N/* Copyright (c) 2009 - 2013 ARM LIMITED
-N
-N   All rights reserved.
-N   Redistribution and use in source and binary forms, with or without
-N   modification, are permitted provided that the following conditions are met:
-N   - Redistributions of source code must retain the above copyright
-N     notice, this list of conditions and the following disclaimer.
-N   - Redistributions in binary form must reproduce the above copyright
-N     notice, this list of conditions and the following disclaimer in the
-N     documentation and/or other materials provided with the distribution.
-N   - Neither the name of ARM nor the names of its contributors may be used
-N     to endorse or promote products derived from this software without
-N     specific prior written permission.
-N   *
-N   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-N   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-N   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-N   ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
-N   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-N   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-N   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-N   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-N   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-N   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-N   POSSIBILITY OF SUCH DAMAGE.
-N   ---------------------------------------------------------------------------*/
-N
 N
 N#ifndef __CORE_CMINSTR_H
 N#define __CORE_CMINSTR_H
@@ -1006,7 +990,7 @@ X#if   1L
 N/* ARM armcc specific functions */
 N
 N#if (__ARMCC_VERSION < 400677)
-X#if (5030076 < 400677)
+X#if (410894 < 400677)
 S  #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
 N#endif
 N
@@ -1083,14 +1067,13 @@ N
 N    \param [in]    value  Value to reverse
 N    \return               Reversed value
 N */
-N#ifndef __NO_EMBEDDED_ASM
 N__attribute__((section(".rev16_text"))) __STATIC_INLINE __ASM uint32_t __REV16(uint32_t value)
 X__attribute__((section(".rev16_text"))) static __inline __asm uint32_t __REV16(uint32_t value)
 N{
 N  rev16 r0, r0
 N  bx lr
 N}
-N#endif
+N
 N
 N/** \brief  Reverse byte order in signed short value
 N
@@ -1099,14 +1082,12 @@ N
 N    \param [in]    value  Value to reverse
 N    \return               Reversed value
 N */
-N#ifndef __NO_EMBEDDED_ASM
 N__attribute__((section(".revsh_text"))) __STATIC_INLINE __ASM int32_t __REVSH(int32_t value)
 X__attribute__((section(".revsh_text"))) static __inline __asm int32_t __REVSH(int32_t value)
 N{
 N  revsh r0, r0
 N  bx lr
 N}
-N#endif
 N
 N
 N/** \brief  Rotate Right in unsigned value (32 bit)
@@ -1118,17 +1099,6 @@ N    \param [in]    value  Number of Bits to rotate
 N    \return               Rotated value
 N */
 N#define __ROR                             __ror
-N
-N
-N/** \brief  Breakpoint
-N
-N    This function causes the processor to enter Debug state.
-N    Debug tools can use this to investigate system state when the instruction at a particular address is reached.
-N
-N    \param [in]    value  is ignored by the processor.
-N                   If required, a debugger can use it to store additional information about the breakpoint.
-N */
-N#define __BKPT(value)                       __breakpoint(value)
 N
 N
 N#if       (__CORTEX_M >= 0x03)
@@ -1268,17 +1238,6 @@ S
 S#elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
 S/* GNU gcc specific functions */
 S
-S/* Define macros for porting to both thumb1 and thumb2.
-S * For thumb1, use low register (r0-r7), specified by constrant "l"
-S * Otherwise, use general registers, specified by constrant "r" */
-S#if defined (__thumb__) && !defined (__thumb2__)
-S#define __CMSIS_GCC_OUT_REG(r) "=l" (r)
-S#define __CMSIS_GCC_USE_REG(r) "l" (r)
-S#else
-S#define __CMSIS_GCC_OUT_REG(r) "=r" (r)
-S#define __CMSIS_GCC_USE_REG(r) "r" (r)
-S#endif
-S
 S/** \brief  No Operation
 S
 S    No Operation does nothing. This instruction can be used for code alignment purposes.
@@ -1364,14 +1323,10 @@ S    \return               Reversed value
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __REV(uint32_t value)
 S{
-S#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
-S  return __builtin_bswap32(value);
-S#else
 S  uint32_t result;
 S
-S  __ASM volatile ("rev %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
+S  __ASM volatile ("rev %0, %1" : "=r" (result) : "r" (value) );
 S  return(result);
-S#endif
 S}
 S
 S
@@ -1386,7 +1341,7 @@ S__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __REV16(uint32_t va
 S{
 S  uint32_t result;
 S
-S  __ASM volatile ("rev16 %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
+S  __ASM volatile ("rev16 %0, %1" : "=r" (result) : "r" (value) );
 S  return(result);
 S}
 S
@@ -1400,14 +1355,10 @@ S    \return               Reversed value
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE int32_t __REVSH(int32_t value)
 S{
-S#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-S  return (short)__builtin_bswap16(value);
-S#else
 S  uint32_t result;
 S
-S  __ASM volatile ("revsh %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
+S  __ASM volatile ("revsh %0, %1" : "=r" (result) : "r" (value) );
 S  return(result);
-S#endif
 S}
 S
 S
@@ -1421,19 +1372,10 @@ S    \return               Rotated value
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint32_t op2)
 S{
-S  return (op1 >> op2) | (op1 << (32 - op2)); 
+S
+S  __ASM volatile ("ror %0, %0, %1" : "+r" (op1) : "r" (op2) );
+S  return(op1);
 S}
-S
-S
-S/** \brief  Breakpoint
-S
-S    This function causes the processor to enter Debug state.
-S    Debug tools can use this to investigate system state when the instruction at a particular address is reached.
-S
-S    \param [in]    value  is ignored by the processor.
-S                   If required, a debugger can use it to store additional information about the breakpoint.
-S */
-S#define __BKPT(value)                       __ASM volatile ("bkpt "#value)
 S
 S
 S#if       (__CORTEX_M >= 0x03)
@@ -1463,16 +1405,9 @@ S    \return             value of type uint8_t at (*ptr)
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE uint8_t __LDREXB(volatile uint8_t *addr)
 S{
-S    uint32_t result;
+S    uint8_t result;
 S
-S#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-S   __ASM volatile ("ldrexb %0, %1" : "=r" (result) : "Q" (*addr) );
-S#else
-S    /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
-S       accepted by assembler. So has to use following less efficient pattern.
-S    */
-S   __ASM volatile ("ldrexb %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
-S#endif
+S   __ASM volatile ("ldrexb %0, [%1]" : "=r" (result) : "r" (addr) );
 S   return(result);
 S}
 S
@@ -1486,16 +1421,9 @@ S    \return        value of type uint16_t at (*ptr)
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE uint16_t __LDREXH(volatile uint16_t *addr)
 S{
-S    uint32_t result;
+S    uint16_t result;
 S
-S#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-S   __ASM volatile ("ldrexh %0, %1" : "=r" (result) : "Q" (*addr) );
-S#else
-S    /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
-S       accepted by assembler. So has to use following less efficient pattern.
-S    */
-S   __ASM volatile ("ldrexh %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
-S#endif
+S   __ASM volatile ("ldrexh %0, [%1]" : "=r" (result) : "r" (addr) );
 S   return(result);
 S}
 S
@@ -1511,7 +1439,7 @@ S__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __LDREXW(volatile u
 S{
 S    uint32_t result;
 S
-S   __ASM volatile ("ldrex %0, %1" : "=r" (result) : "Q" (*addr) );
+S   __ASM volatile ("ldrex %0, [%1]" : "=r" (result) : "r" (addr) );
 S   return(result);
 S}
 S
@@ -1529,7 +1457,7 @@ S__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __STREXB(uint8_t va
 S{
 S   uint32_t result;
 S
-S   __ASM volatile ("strexb %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" (value) );
+S   __ASM volatile ("strexb %0, %2, [%1]" : "=&r" (result) : "r" (addr), "r" (value) );
 S   return(result);
 S}
 S
@@ -1547,7 +1475,7 @@ S__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __STREXH(uint16_t v
 S{
 S   uint32_t result;
 S
-S   __ASM volatile ("strexh %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" (value) );
+S   __ASM volatile ("strexh %0, %2, [%1]" : "=&r" (result) : "r" (addr), "r" (value) );
 S   return(result);
 S}
 S
@@ -1565,7 +1493,7 @@ S__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __STREXW(uint32_t v
 S{
 S   uint32_t result;
 S
-S   __ASM volatile ("strex %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" (value) );
+S   __ASM volatile ("strex %0, %2, [%1]" : "=&r" (result) : "r" (addr), "r" (value) );
 S   return(result);
 S}
 S
@@ -1577,7 +1505,7 @@ S
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __CLREX(void)
 S{
-S  __ASM volatile ("clrex" ::: "memory");
+S  __ASM volatile ("clrex");
 S}
 S
 S
@@ -1624,7 +1552,7 @@ S    \return             number of leading zeros in value
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE uint8_t __CLZ(uint32_t value)
 S{
-S   uint32_t result;
+S  uint8_t result;
 S
 S  __ASM volatile ("clz %0, %1" : "=r" (result) : "r" (value) );
 S  return(result);
@@ -1655,39 +1583,25 @@ L 1 "D:\Keil\ARM\CMSIS\Include\core_cmFunc.h" 1
 N/**************************************************************************//**
 N * @file     core_cmFunc.h
 N * @brief    CMSIS Cortex-M Core Function Access Header File
-N * @version  V3.20
-N * @date     25. February 2013
+N * @version  V3.01
+N * @date     06. March 2012
 N *
 N * @note
+N * Copyright (C) 2009-2012 ARM Limited. All rights reserved.
+N *
+N * @par
+N * ARM Limited (ARM) is supplying this software for use with Cortex-M
+N * processor based microcontrollers.  This file can be freely distributed
+N * within development tools that are supporting such ARM based processors.
+N *
+N * @par
+N * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
+N * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+N * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
+N * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
+N * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
 N *
 N ******************************************************************************/
-N/* Copyright (c) 2009 - 2013 ARM LIMITED
-N
-N   All rights reserved.
-N   Redistribution and use in source and binary forms, with or without
-N   modification, are permitted provided that the following conditions are met:
-N   - Redistributions of source code must retain the above copyright
-N     notice, this list of conditions and the following disclaimer.
-N   - Redistributions in binary form must reproduce the above copyright
-N     notice, this list of conditions and the following disclaimer in the
-N     documentation and/or other materials provided with the distribution.
-N   - Neither the name of ARM nor the names of its contributors may be used
-N     to endorse or promote products derived from this software without
-N     specific prior written permission.
-N   *
-N   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-N   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-N   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-N   ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
-N   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-N   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-N   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-N   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-N   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-N   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-N   POSSIBILITY OF SUCH DAMAGE.
-N   ---------------------------------------------------------------------------*/
-N
 N
 N#ifndef __CORE_CMFUNC_H
 N#define __CORE_CMFUNC_H
@@ -1704,7 +1618,7 @@ X#if   1L
 N/* ARM armcc specific functions */
 N
 N#if (__ARMCC_VERSION < 400677)
-X#if (5030076 < 400677)
+X#if (410894 < 400677)
 S  #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
 N#endif
 N
@@ -2022,7 +1936,7 @@ S  Can only be executed in Privileged modes.
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
 S{
-S  __ASM volatile ("cpsie i" : : : "memory");
+S  __ASM volatile ("cpsie i");
 S}
 S
 S
@@ -2033,7 +1947,7 @@ S  Can only be executed in Privileged modes.
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
 S{
-S  __ASM volatile ("cpsid i" : : : "memory");
+S  __ASM volatile ("cpsid i");
 S}
 S
 S
@@ -2060,7 +1974,7 @@ S    \param [in]    control  Control Register value to set
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_CONTROL(uint32_t control)
 S{
-S  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+S  __ASM volatile ("MSR control, %0" : : "r" (control) );
 S}
 S
 S
@@ -2132,7 +2046,7 @@ S    \param [in]    topOfProcStack  Process Stack Pointer value to set
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
 S{
-S  __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
+S  __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) );
 S}
 S
 S
@@ -2159,7 +2073,7 @@ S    \param [in]    topOfMainStack  Main Stack Pointer value to set
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
 S{
-S  __ASM volatile ("MSR msp, %0\n" : : "r" (topOfMainStack) : "sp");
+S  __ASM volatile ("MSR msp, %0\n" : : "r" (topOfMainStack) );
 S}
 S
 S
@@ -2186,7 +2100,7 @@ S    \param [in]    priMask  Priority Mask
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
 S{
-S  __ASM volatile ("MSR primask, %0" : : "r" (priMask) : "memory");
+S  __ASM volatile ("MSR primask, %0" : : "r" (priMask) );
 S}
 S
 S
@@ -2199,7 +2113,7 @@ S    Can only be executed in Privileged modes.
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_fault_irq(void)
 S{
-S  __ASM volatile ("cpsie f" : : : "memory");
+S  __ASM volatile ("cpsie f");
 S}
 S
 S
@@ -2210,7 +2124,7 @@ S    Can only be executed in Privileged modes.
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_fault_irq(void)
 S{
-S  __ASM volatile ("cpsid f" : : : "memory");
+S  __ASM volatile ("cpsid f");
 S}
 S
 S
@@ -2237,7 +2151,7 @@ S    \param [in]    basePri  Base Priority value to set
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI(uint32_t value)
 S{
-S  __ASM volatile ("MSR basepri, %0" : : "r" (value) : "memory");
+S  __ASM volatile ("MSR basepri, %0" : : "r" (value) );
 S}
 S
 S
@@ -2264,7 +2178,7 @@ S    \param [in]    faultMask  Fault Mask value to set
 S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
 S{
-S  __ASM volatile ("MSR faultmask, %0" : : "r" (faultMask) : "memory");
+S  __ASM volatile ("MSR faultmask, %0" : : "r" (faultMask) );
 S}
 S
 S#endif /* (__CORTEX_M >= 0x03) */
@@ -2283,10 +2197,7 @@ S{
 S#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
 S  uint32_t result;
 S
-S  /* Empty asm statement works as a scheduling barrier */
-S  __ASM volatile ("");
 S  __ASM volatile ("VMRS %0, fpscr" : "=r" (result) );
-S  __ASM volatile ("");
 S  return(result);
 S#else
 S   return(0);
@@ -2303,10 +2214,7 @@ S */
 S__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
 S{
 S#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
-S  /* Empty asm statement works as a scheduling barrier */
-S  __ASM volatile ("");
-S  __ASM volatile ("VMSR fpscr, %0" : : "r" (fpscr) : "vfpcc");
-S  __ASM volatile ("");
+S  __ASM volatile ("VMSR fpscr, %0" : : "r" (fpscr) );
 S#endif
 S}
 S

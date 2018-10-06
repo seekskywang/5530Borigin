@@ -45,6 +45,7 @@ int main(void)
 	TIM1_PWM_Config();
 	TIM2_PWM_Config();
 	TIM6_Config();
+    TIM3_Int_Init(10000-1,8400-1);
 	ADC1_DMA_Init();
 	USART_Configuration();
 	i2c_CfgGpio();//24C01引脚初始化

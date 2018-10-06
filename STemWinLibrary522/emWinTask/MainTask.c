@@ -29,10 +29,18 @@ extern struct bitDefine
     unsigned bit6: 1;
     unsigned bit7: 1;
 } flagA, flagB,flagC,flagD,flagE,flagF,flagG;
+extern vu8 resetflag;
 
 extern GUI_CONST_STORAGE GUI_FONT GUI_FontHZ16;
 extern WM_HWIN CreateWindow(void);
 extern WM_HWIN CreateR(void);
+
+
+static void ee_Delay( vu32 nCount)	 //莶榨謩覔时诏私
+{
+	for(; nCount != 0; nCount--);
+}
+
 /**********************************************************************************************************
 *	函 数 名: MainTask
 *	功能说明: GUI主函数
@@ -42,6 +50,8 @@ extern WM_HWIN CreateR(void);
 */
 void MainTask(void) 
 { 
+    static int read1963;
+    static int scancount;
 	unsigned char  ucKeyCode;
 	GUI_Init();
 	WM_SetDesktopColor(GUI_BLUE);  
@@ -64,6 +74,25 @@ void MainTask(void)
 	Flag_Swtich_ON=0;
 	while (1)
 	{
+//         if(page_sw != face_starter)
+//         {
+            if(scancount == 9)
+            {
+                sLCD_WR_REG(0xf1);
+                ee_Delay(10);
+                read1963 =sLCD_Read_Data();
+                scancount = 0;
+            }else{
+                scancount++;
+            }
+             if(read1963 != 0x03)
+             {
+                 resetflag = 1;               
+             }else{
+                 resetflag = 0; 
+             }
+//         }
+            
 		TIM_SetCompare1(TIM2,Contr_Current);//稳压电源电流DAC
 		TIM_SetCompare2(TIM2,Contr_Voltage);//稳压电源电压DAC
 		DAC8531_Send(Contr_Laod);//加载DAC值

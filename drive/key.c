@@ -267,6 +267,7 @@ void Key_Funtion(void)
 			
 			case KEY_ESC :
 			{
+                sLCD_WR_REG(0x01);
 				KeyCounter = 0;
 				BEEP_Tiggr();//
 			}
