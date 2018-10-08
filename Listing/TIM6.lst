@@ -35027,8 +35027,8 @@ N             if(resetflag == 1)
 N             {
 N                 if(resetcount == 1)
 N                 {
-W "..\drive\TIM6.c" 94 22 function "LCD_Initializtion" declared implicitly
-N                     LCD_Initializtion();
+W "..\drive\TIM6.c" 94 22 function "sLCD_Init" declared implicitly
+N                     sLCD_Init();
 W "..\drive\TIM6.c" 95 22 function "sLCD_WR_REG" declared implicitly
 N                     sLCD_WR_REG(0xf1);
 W "..\drive\TIM6.c" 96 22 function "GUI_Init" declared implicitly

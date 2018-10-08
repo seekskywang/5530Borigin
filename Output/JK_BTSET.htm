@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\Output\JK_BTSET.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\Output\JK_BTSET.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 4.1 [Build 894]: Last Updated: Sat Oct 06 16:52:34 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 4.1 [Build 894]: Last Updated: Sat Oct 06 16:58:42 2018
 <BR><P>
 <H3>Maximum Stack Usage =        688 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -4224,12 +4224,11 @@ Global Symbols
 <P><STRONG><a name="[2c1]"></a>LCD_Initializtion</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, ssd1963.o(i.LCD_Initializtion))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = LCD_Initializtion &rArr; sLCD_FSMC_Config &rArr; FSMC_NORSRAMInit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_GPIO_Config
+<BR>[Calls]<UL><LI><a href="#[2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_Init
+<LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_GPIO_Config
 <LI><a href="#[2c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_FSMC_Config
-<LI><a href="#[2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>
 
 <P><STRONG><a name="[277]"></a>LCD_SelectLCD</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, lcd_selectlcd.o(i.LCD_SelectLCD))
@@ -4833,8 +4832,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[310]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
 <LI><a href="#[311]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
-<LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Initializtion
 <LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Init
+<LI><a href="#[2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_Init
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_WR_REG
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
@@ -6658,6 +6657,18 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Initializtion
 </UL>
 
+<P><STRONG><a name="[2c4]"></a>sLCD_Init</STRONG> (Thumb, 358 bytes, Stack size 4 bytes, ssd1963.o(i.sLCD_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = sLCD_Init &rArr; Delay_ms
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_WR_Data
+<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_Read_Data
+<LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
+<LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_WR_REG
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Initializtion
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
+</UL>
+
 <P><STRONG><a name="[2cc]"></a>sLCD_Read_Data</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, ssd1963.o(i.sLCD_Read_Data))
 <BR><BR>[Called By]<UL><LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MainTask
 <LI><a href="#[2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_Init
@@ -6802,17 +6813,6 @@ Local Symbols
 <LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c_SendByte
 <LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c_ReadByte
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c_NAck
-</UL>
-
-<P><STRONG><a name="[2c4]"></a>sLCD_Init</STRONG> (Thumb, 358 bytes, Stack size 4 bytes, ssd1963.o(i.sLCD_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = sLCD_Init &rArr; Delay_ms
-</UL>
-<BR>[Calls]<UL><LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_WR_Data
-<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_Read_Data
-<LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
-<LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sLCD_WR_REG
-</UL>
-<BR>[Called By]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Initializtion
 </UL>
 
 <P><STRONG><a name="[315]"></a>TIM6_NVIC_Config</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, tim6.o(i.TIM6_NVIC_Config))

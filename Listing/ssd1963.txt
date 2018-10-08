@@ -523,7 +523,7 @@
 
                   sLCD_Init PROC
 ;;;238    
-;;;239    static void sLCD_Init(void)
+;;;239     void sLCD_Init(void)
 000000  b500              PUSH     {lr}
 ;;;240    {
 ;;;241        vu16 DeviceCode;

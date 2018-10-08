@@ -35429,7 +35429,7 @@ N		}
 N	}
 N}
 N
-Nstatic void sLCD_Init(void)
+N void sLCD_Init(void)
 N{
 N    vu16 DeviceCode;
 N    sLCD_WR_REG(0xa1);

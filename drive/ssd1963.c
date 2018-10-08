@@ -236,7 +236,7 @@ void sLCD_Clear(u16 color)
 	}
 }
 
-static void sLCD_Init(void)
+ void sLCD_Init(void)
 {
     vu16 DeviceCode;
     sLCD_WR_REG(0xa1);

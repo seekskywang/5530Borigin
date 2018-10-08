@@ -90,7 +90,7 @@
 ### ADS-LD Output File: '..\Output\JK_BTSET.axf'
 ### ADS-LD Command File: '..\Output\JK_BTSET.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile '..\Output\JK_BTSET.lnp', Handle=0x00000B44
+### Creating CmdFile '..\Output\JK_BTSET.lnp', Handle=0x00000BF8
 ### Writing '.lnp' file
 ### ADS-LD Command file '..\Output\JK_BTSET.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.

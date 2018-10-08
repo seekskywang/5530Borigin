@@ -39,7 +39,7 @@
 000022  2801              CMP      r0,#1
 000024  d003              BEQ      |L1.46|
 ;;;93                      {
-;;;94                          LCD_Initializtion();
+;;;94                          sLCD_Init();
 ;;;95                          sLCD_WR_REG(0xf1);
 ;;;96                          GUI_Init();
 ;;;97     //                      if(page_sw == face_menu)
@@ -159,7 +159,7 @@
 ;;;207    }
 00002c  bd10              POP      {r4,pc}
                   |L1.46|
-00002e  f7fffffe          BL       LCD_Initializtion
+00002e  f7fffffe          BL       sLCD_Init
 000032  20f1              MOVS     r0,#0xf1              ;95
 000034  f7fffffe          BL       sLCD_WR_REG
 000038  f7fffffe          BL       GUI_Init
